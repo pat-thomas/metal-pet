@@ -1,15 +1,17 @@
 (ns metal-pet.core)
 
+(defonce template-key-matcher #"#\{[A-Za-z0-9.-]+\}")
+
+(defn template-key->keywords [template-key-string]
+  (let [trimmed-string (->> template-key-string (drop 2) drop-last (apply str))]
+    (map keyword (clojure.string/split trimmed-string #"\."))))
+
 (defn template-keys
   "Given a string like 'Hello #{consumer.first-name} #{consumer.last-name}, returns [[:consumer :first-name] [:consumer :last-name]]"
   [template-string]
   (->> template-string
-       (re-seq #"\{[A-Za-z.-]+\}")
+       (re-seq template-key-matcher)
        (map template-key->keywords)))
-
-(defn template-key->keywords [template-key-string]
-  (let [trimmed-string (->> template-key-string (drop 1) drop-last (apply str))]
-    (map keyword (clojure.string/split trimmed-string #"\."))))
 
 (defn render-template 
   ([template-string opts defaults]
@@ -26,8 +28,8 @@
               loc-rendered-keys rendered-keys]
          (if (empty? loc-tks)
            acc-str
-           (recur (clojure.string/replace-first acc-str #"#\{[A-Za-z.-]+\}" (first loc-rendered-keys))
+           (recur (clojure.string/replace-first acc-str template-key-matcher (first loc-rendered-keys))
                   (rest loc-tks)
                   (rest loc-rendered-keys))))))
   ([template-string opts]
-     (templatize template-string opts {})))
+     (render-template template-string opts {})))
