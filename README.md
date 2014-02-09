@@ -5,7 +5,7 @@ Simple Clojure string templating.
 ## Example usage
 ```clj
 (ns example
-  (:require [metal-pet.core :refer render-template]))
+  (:require [metal-pet.core :refer [render-template]]))
 
 (render-template 
  "#{some-template-key} #{some-nested.template-key} some non templated string stuff #{some-default}" 
