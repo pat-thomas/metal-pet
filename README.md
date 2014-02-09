@@ -1,14 +1,17 @@
 # metal-pet
 
-A Clojure library designed to ... well, that part is up to you.
+Simple Clojure string templating.
 
-## Usage
+## Example usage
+```clj
+(ns example
+  (:require [metal-pet.core :refer render-template]))
 
-FIXME
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+(render-template 
+ "#{some-template-key} #{some-nested.template-key} some
+non templated string stuff #{some-default}" 
+ {:some-template-key "stuff"
+  :some-nested {:template-key "things"}}
+ {:some-default "chicken wings"})
+;; "stuff things some non templated string stuff chicken wings"
+```
