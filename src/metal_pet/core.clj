@@ -2,11 +2,13 @@
 
 (defonce template-key-matcher #"#\{[A-Za-z0-9.-]+\}")
 
-(defn template-key->keywords [template-key-string]
+(defn template-key->keywords
+  [template-key-string]
   (let [trimmed-string (->> template-key-string (drop 2) drop-last (apply str))]
     (map keyword (clojure.string/split trimmed-string #"\."))))
 
-(defn template-keys [template-string]
+(defn template-keys
+  [template-string]
   (->> template-string
        (re-seq template-key-matcher)
        (map template-key->keywords)))
