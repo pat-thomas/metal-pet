@@ -2,6 +2,13 @@
 
 Simple Clojure string templating.
 
+# Installation
+Available via Clojars.
+Add the following to your project.clj dependencies.
+```clj
+[metal-pet "0.1.0-SNAPSHOT"]
+```
+
 ## Example usage
 ```clj
 (ns example
